@@ -64,7 +64,16 @@ export class StaysService {
   listActiveByShelter(shelterId: string) {
     return this.repo.find({
       where: { shelterId, checkOutAt: IsNull() },
-      relations: { person: true },
+      relations: { person: true, shelter: true },
+      order: { checkInAt: 'DESC' },
+    });
+  }
+
+  // Estadas ativas de toda a rede (GESTAO/ADMIN).
+  listAllActive() {
+    return this.repo.find({
+      where: { checkOutAt: IsNull() },
+      relations: { person: true, shelter: true },
       order: { checkInAt: 'DESC' },
     });
   }

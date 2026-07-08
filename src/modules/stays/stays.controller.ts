@@ -16,7 +16,7 @@ export class StaysController {
   ) {}
 
   @Post('check-in')
-  @Roles(UserRole.CASA, UserRole.ADMIN)
+  @Roles(UserRole.CASA, UserRole.GESTAO, UserRole.ADMIN)
   async checkIn(@Body() dto: CheckInDto, @CurrentUser() actor: AuthUser, @Req() req: any) {
     const stay = await this.staysService.checkIn(dto);
     await this.audit.record({
@@ -30,7 +30,7 @@ export class StaysController {
   }
 
   @Patch(':id/check-out')
-  @Roles(UserRole.CASA, UserRole.ADMIN)
+  @Roles(UserRole.CASA, UserRole.GESTAO, UserRole.ADMIN)
   async checkOut(
     @Param('id') id: string,
     @Body() dto: CheckOutDto,
@@ -54,6 +54,10 @@ export class StaysController {
     if (personId) return this.staysService.listByPerson(personId);
     const target = shelterId ?? (actor.role === UserRole.CASA ? actor.shelterId : undefined);
     if (target) return this.staysService.listActiveByShelter(target);
+    // GESTAO/ADMIN sem casa específica veem os acolhimentos ativos de toda a rede.
+    if (actor.role === UserRole.GESTAO || actor.role === UserRole.ADMIN) {
+      return this.staysService.listAllActive();
+    }
     return [];
   }
 }
