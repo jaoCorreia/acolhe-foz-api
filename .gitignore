@@ -1,0 +1,21 @@
+# Dependências
+node_modules/
+
+# Build
+dist/
+build/
+
+# Ambiente (contém segredos — NÃO versionar)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
