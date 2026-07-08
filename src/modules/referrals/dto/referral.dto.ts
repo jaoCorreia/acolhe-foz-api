@@ -1,10 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
 import { DestinationType, ReferralStatus } from '../../../common/enums';
+import { IsUuidLike } from '../../../common/validators';
 
 export class CreateReferralDto {
   @ApiProperty()
-  @IsUUID()
+  @IsUuidLike('approachId')
   approachId: string;
 
   @ApiProperty({ enum: DestinationType })
@@ -13,7 +14,7 @@ export class CreateReferralDto {
 
   @ApiPropertyOptional({ description: 'Obrigatório quando destino é CP1/CP2/CP3' })
   @IsOptional()
-  @IsUUID()
+  @IsUuidLike('shelterId')
   shelterId?: string;
 
   @ApiPropertyOptional({ description: 'Forçar mesmo sem vagas (ADMIN/GESTAO) — RN-006' })

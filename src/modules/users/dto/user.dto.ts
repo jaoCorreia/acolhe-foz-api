@@ -5,11 +5,11 @@ import {
   IsEnum,
   IsOptional,
   IsString,
-  IsUUID,
   MaxLength,
   MinLength,
 } from 'class-validator';
 import { UserRole } from '../../../common/enums';
+import { IsUuidLike } from '../../../common/validators';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -33,7 +33,7 @@ export class CreateUserDto {
 
   @ApiPropertyOptional({ description: 'Obrigatório quando role = CASA' })
   @IsOptional()
-  @IsUUID()
+  @IsUuidLike('shelterId')
   shelterId?: string;
 }
 

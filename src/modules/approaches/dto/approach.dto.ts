@@ -8,16 +8,16 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
   Max,
   MaxLength,
   Min,
 } from 'class-validator';
 import { DemandType, Period } from '../../../common/enums';
+import { IsUuidLike } from '../../../common/validators';
 
 export class CreateApproachDto {
   @ApiProperty()
-  @IsUUID()
+  @IsUuidLike('personId')
   personId: string;
 
   @ApiPropertyOptional({ description: 'Default: agora' })
@@ -124,7 +124,7 @@ export class ListApproachesDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsUUID()
+  @IsUuidLike('userId')
   userId?: string;
 
   @ApiPropertyOptional({ description: 'Somente abordagens de hoje do usuário logado (app)' })
